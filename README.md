@@ -136,5 +136,23 @@ Script:
 
 `/var/log/splunk_real_env/sql_injection_simulation.py`
 
+Inclui tentativa de SQL Injection e logs formatados como:
 
+`[INFO] 2025-03-12 12:10:00 src_ip=192.168.1.10 dest_ip=10.0.0.5 sql_injection=' OR 1=1 --'`
+
+Rodar:
+
+`sudo nohup python3 /var/log/splunk_real_env/sql_injection_simulation.py > /dev/null 2>&1 &`
+
+**✅ Ativar Regra de Correlaçãon**
+
+Vá para:
+
+ES Menu > Configure > Content Management
+
+Filtre por "Correlation Searches"
+
+Ative e edite conforme necessidade (escolha index, tags, notáveis, etc)
+
+**Pronto! Agora seu ambiente Splunk ES está preparado com logs simulados de firewall e EDR, mapeados para o CIM, prontos para dashboards, notáveis e investigações.**
 
