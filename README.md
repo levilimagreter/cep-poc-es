@@ -37,21 +37,65 @@ Este guia cobre a instalação do Splunk Enterprise, integração com ES 8.0.2, 
 **🔧 Instalação do Splunk Enterprise**
 
 `ssh usuario@<ip_servidor>`
+
 `sudo useradd -m -r splunkuser`
+
 `sudo passwd splunkuser`
+
 `sudo usermod -aG sudo splunkuser`
+
 `sudo chsh -s /bin/bash splunkuser`
+
 `su - splunkuser`
+
 `sudo wget -O splunk-9.4.1.tgz https://download.splunk.com/products/splunk/releases/9.4.1/linux/splunk-9.4.1-e3bdab203ac8-linux-amd64.tgz`
+
 `sudo mkdir /opt/splunk`
+
 `sudo chown -R splunkuser:splunkuser /opt/splunk`
+
 `tar -xzvf splunk-9.4.1.tgz -C /opt`
+
 `/opt/splunk/bin/splunk start --accept-license`
+
 `sudo /opt/splunk/bin/splunk enable boot-start -user splunkuser --accept-license`
 
 **🔧 Criar Indexes**
 
 `/opt/splunk/bin/splunk add index network -datatype event`
+
 `/opt/splunk/bin/splunk add index edr -datatype event`
+
+**🔧 Configurar inputs.conf**
+
+**Cisco ASA**
+
+`[monitor:///var/log/splunk_real_env/cisco_firewall.log]`
+
+`index = network
+sourcetype = cisco:asa
+disabled = false`
+
+**Carbon Black**
+
+`[monitor:///var/log/splunk_real_env/carbon_black_edr.log]`
+
+`index = edr
+sourcetype = carbonblack:edr
+disabled = false`
+
+**🔧 Scripts de Geração de Logs**
+
+Scripts Python para gerar eventos Cisco ASA e Carbon Black estão localizados em:
+
+`/var/log/splunk_real_env/generate_cisco_asa_logs.py`
+
+`/var/log/splunk_real_env/generate_carbon_black_edr_logs.py`
+
+Executar com:
+
+`sudo nohup python3 caminho/script.py > /dev/null 2>&1 &`
+
+
 
 
