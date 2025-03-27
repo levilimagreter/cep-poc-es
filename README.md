@@ -96,6 +96,45 @@ Executar com:
 
 `sudo nohup python3 caminho/script.py > /dev/null 2>&1 &`
 
+**🔧 Configurar macros.conf**
+
+`[Network_Traffic_Indexes]
+definition = (index=network OR index=main)`
+
+`[Endpoint_Indexes]
+definition = (index=edr OR index=main)`
+
+**🔧 Testar com tstats**
+
+`| tstats count FROM datamodel=Network_Traffic.All_Traffic WHERE index=network BY _time, All_Traffic.src, All_Traffic.dest`
+
+`| tstats count FROM datamodel=Endpoint.Processes WHERE index=edr BY _time, Processes.process_name`
+
+**🧪 Transferir e instalar o Splunk ES**
+
+`scp splunk-enterprise-security_802.spl splunkuser@<ip>:/home/splunkuser/`
+
+`sudo chmod +x splunk-enterprise-security_802.spl`
+
+`sudo /opt/splunk/bin/splunk install app /home/splunkuser/splunk-enterprise-security_802.spl -auth admin:splunkuser`
+
+**🧪 Ajustar Timeout Splunk Web**
+
+`# /opt/splunk/etc/system/local/web.conf`
+
+`[settings]
+startwebserver = true
+splunkdConnectionTimeout = 300`
+
+`# /opt/splunk/etc/splunk-launch.conf`
+
+`SPLUNKD_CONNECTION_TIMEOUT=300`
+
+**🧪 Simular SQL Injection**
+
+Script: 
+
+`/var/log/splunk_real_env/sql_injection_simulation.py`
 
 
 
