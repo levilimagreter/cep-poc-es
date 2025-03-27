@@ -22,7 +22,7 @@ Este guia cobre a instalação do Splunk Enterprise, integração com ES 8.0.2, 
 
 `sudo iptables -L -n`
 
-**❗ Desativando Transparent Huge Pages (THP)l**
+**❗ Desativando Transparent Huge Pages (THP)**
 
 `cat /sys/kernel/mm/transparent_hugepage/enabled`
 
@@ -34,5 +34,24 @@ Este guia cobre a instalação do Splunk Enterprise, integração com ES 8.0.2, 
 
 `sudo reboot`
 
+**🔧 Instalação do Splunk Enterprise**
+
+`ssh usuario@<ip_servidor>`
+`sudo useradd -m -r splunkuser`
+`sudo passwd splunkuser`
+`sudo usermod -aG sudo splunkuser`
+`sudo chsh -s /bin/bash splunkuser`
+`su - splunkuser`
+`sudo wget -O splunk-9.4.1.tgz https://download.splunk.com/products/splunk/releases/9.4.1/linux/splunk-9.4.1-e3bdab203ac8-linux-amd64.tgz`
+`sudo mkdir /opt/splunk`
+`sudo chown -R splunkuser:splunkuser /opt/splunk`
+`tar -xzvf splunk-9.4.1.tgz -C /opt`
+`/opt/splunk/bin/splunk start --accept-license`
+`sudo /opt/splunk/bin/splunk enable boot-start -user splunkuser --accept-license`
+
+**🔧 Criar Indexes**
+
+`/opt/splunk/bin/splunk add index network -datatype event`
+`/opt/splunk/bin/splunk add index edr -datatype event`
 
 
